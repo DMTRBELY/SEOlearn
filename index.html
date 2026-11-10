@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10151d">
+  <meta name="description" content="Практическая лаборатория веб-производительности: заметки, эксперименты и простые объяснения PageSpeed Insights.">
+  <title>Скорость / лаборатория веба</title>
+  <style>
+    :root{color-scheme:dark;--bg:#10151d;--panel:#171f2a;--panel2:#1d2835;--text:#edf2f7;--muted:#9aa8b8;--line:#2a3746;--accent:#a6e3c2;--accent2:#e6c58a;--danger:#ff9b9b;--max:1080px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 85% 0%,#20372f 0,transparent 32%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif}
+    a{color:inherit}button,input,textarea{font:inherit}button{cursor:pointer}.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}
+    header{border-bottom:1px solid var(--line)}.top{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:750;letter-spacing:.04em}.mark{width:34px;height:34px;border:1px solid #6b9f86;border-radius:10px;display:grid;place-items:center;color:var(--accent);font-size:19px}.nav{display:flex;gap:24px;color:var(--muted);font-size:14px}.nav a{text-decoration:none}.nav a:hover{color:var(--accent)}
+    .hero{padding:76px 0 58px;display:grid;grid-template-columns:1.3fr .7fr;gap:45px;align-items:center}.eyebrow{color:var(--accent);font-size:12px;font-weight:750;letter-spacing:.18em;text-transform:uppercase}.hero h1{font-size:clamp(42px,6vw,70px);line-height:1.02;letter-spacing:-.055em;margin:18px 0}.hero p{max-width:620px;color:var(--muted);font-size:18px}.hero-card{background:linear-gradient(145deg,#1d2d2c,#19232e);border:1px solid #34483f;border-radius:18px;padding:25px;box-shadow:0 22px 65px #0003}.score{display:flex;align-items:center;gap:15px}.gauge{width:74px;height:74px;border:5px solid var(--accent);border-right-color:#536b60;border-radius:50%;display:grid;place-items:center;color:var(--accent);font-size:22px;font-weight:800}.hero-card small{color:var(--muted)}.hero-card strong{display:block;font-size:18px}.meter{height:7px;background:#34443e;border-radius:9px;margin:24px 0 10px;overflow:hidden}.meter span{display:block;width:78%;height:100%;background:var(--accent);border-radius:9px}.micro{font-size:12px;color:var(--muted)}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:28px 0 20px}.section-head h2{font-size:28px;letter-spacing:-.03em;margin:0}.section-head p{margin:5px 0 0;color:var(--muted)}.toolbar{display:flex;gap:10px;align-items:center}
+    .btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 15px;border-radius:9px;font-weight:650}.btn:hover{border-color:var(--accent);color:var(--accent)}.btn.primary{background:var(--accent);color:#102018;border-color:var(--accent)}.btn.primary:hover{background:#c1f0d4}.btn.danger{color:var(--danger)}
+    .featured{display:grid;grid-template-columns:1fr 1fr;gap:16px}.feature{min-height:190px;background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:24px}.tag{font-size:11px;color:var(--accent);letter-spacing:.13em;text-transform:uppercase;font-weight:750}.feature h3{font-size:22px;line-height:1.2;margin:14px 0 8px}.feature p{color:var(--muted);margin:0}.feature .read{display:inline-block;margin-top:18px;color:var(--accent);text-decoration:none;font-size:14px;font-weight:700}
+    .articles{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:70px}.article{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;min-height:220px}.article h3{font-size:19px;line-height:1.25;margin:11px 0 8px}.article p{color:var(--muted);font-size:14px;margin:0 0 18px}.article-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:8px}.article-foot small{color:var(--muted)}.article-foot button{border:0;background:none;color:var(--accent);padding:4px}
+    .empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:14px;padding:35px;text-align:center;color:var(--muted)}
+    .editor{display:none;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin:0 0 24px}.editor.open{display:block}.editor h3{margin:0 0 16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:var(--muted)}input,textarea{width:100%;border:1px solid var(--line);background:#111923;color:var(--text);padding:11px 12px;border-radius:8px;outline:none}input:focus,textarea:focus{border-color:var(--accent)}textarea{min-height:150px;resize:vertical}.editor-actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+    .reader{display:none;border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:clamp(22px,5vw,46px);margin:0 0 70px}.reader.open{display:block}.reader .content{max-width:720px;color:#c6d0db}.reader h2{font-size:34px;line-height:1.15}.reader .content p{margin:0 0 1.2em}.reader .content h3{color:var(--text);margin-top:1.7em}
+    footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:13px}.footer-inner{display:flex;justify-content:space-between;gap:20px}
+    @media(max-width:760px){.hero{grid-template-columns:1fr;padding:55px 0 35px;gap:25px}.hero-card{max-width:460px}.articles{grid-template-columns:repeat(2,1fr)}.nav{gap:13px}}@media(max-width:520px){.wrap{width:min(100% - 28px,var(--max))}.top{height:auto;min-height:68px;flex-wrap:wrap;padding:13px 0}.nav{width:100%;padding-bottom:4px}.featured,.articles,.fields{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.field.full{grid-column:auto}.footer-inner{flex-direction:column;gap:5px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap top">
+    <a class="brand" href="#" aria-label="Скорость — на главную"><span class="mark">↗</span><span>СКОРОСТЬ<span style="color:var(--accent)"> / </span>ЛАБ</span></a>
+    <nav class="nav" aria-label="Основная навигация"><a href="#about">О проекте</a><a href="#notes">Заметки</a><a href="#footer">Контакты</a></nav>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero" id="about">
+    <div>
+      <div class="eyebrow">Независимая учебная лаборатория</div>
+      <h1>Быстрый сайт.<br><span style="color:var(--accent)">Лучший опыт.</span></h1>
+      <p>Разбираемся, что влияет на скорость загрузки, как читать отчёты PageSpeed Insights и какие улучшения действительно имеют значение.</p>
+      <a class="btn primary" href="#notes" style="display:inline-block;text-decoration:none;margin-top:12px">Изучить заметки ↓</a>
+    </div>
+    <aside class="hero-card" aria-label="Демонстрационный показатель производительности">
+      <div class="score"><div class="gauge">78</div><div><small>Демонстрационный балл</small><strong>Производительность</strong><small>Не результат реального теста</small></div></div>
+      <div class="meter"><span></span></div>
+      <div class="micro">Цель лаборатории — понять причины показателей, а не просто получить 100 баллов.</div>
+    </aside>
+  </section>
+
+  <section aria-labelledby="start-title">
+    <div class="section-head"><div><div class="eyebrow">Начни отсюда</div><h2 id="start-title">Три важных ориентира</h2><p>Базовые понятия, которые пригодятся при первом аудите.</p></div></div>
+    <div class="featured">
+      <article class="feature"><div class="tag">01 / Метрики</div><h3>Core Web Vitals</h3><p>LCP, INP и CLS помогают оценить загрузку, отзывчивость и визуальную стабильность страницы.</p><a class="read" href="https://web.dev/articles/vitals" target="_blank" rel="noopener noreferrer">Изучить метрики ↗</a></article>
+      <article class="feature"><div class="tag">02 / Инструмент</div><h3>PageSpeed Insights</h3><p>Сервис объединяет лабораторные измерения Lighthouse и полевые данные Chrome UX Report, если они доступны.</p><a class="read" href="https://pagespeed.web.dev/" target="_blank" rel="noopener noreferrer">Открыть PageSpeed ↗</a></article>
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="section-head">
+      <div><div class="eyebrow">База знаний</div><h2>Заметки и эксперименты</h2><p>Создавай собственные статьи — они сохранятся в этом браузере.</p></div>
+      <div class="toolbar"><button class="btn primary" id="newArticle">＋ Новая статья</button></div>
+    </div>
+    <form class="editor" id="editor">
+      <h3 id="editorTitle">Новая статья</h3>
+      <div class="fields">
+        <div class="field"><label for="articleTitle">Заголовок</label><input id="articleTitle" maxlength="90" required placeholder="Например: Что такое LCP?"></div>
+        <div class="field"><label for="articleTag">Категория</label><input id="articleTag" maxlength="24" placeholder="Метрики, практика, заметки"></div>
+        <div class="field full"><label for="articleSummary">Краткое описание</label><input id="articleSummary" maxlength="180" required placeholder="О чём эта статья — в одном предложении"></div>
+        <div class="field full"><label for="articleBody">Текст статьи</label><textarea id="articleBody" required placeholder="Пиши текст. Для нового абзаца оставляй пустую строку."></textarea></div>
+      </div>
+      <div class="editor-actions"><button class="btn primary" type="submit">Сохранить статью</button><button class="btn" type="button" id="cancelEdit">Отмена</button></div>
+    </form>
+    <div class="articles" id="articleList" aria-live="polite"></div>
+  </section>
+  <section class="reader" id="reader" aria-live="polite">
+    <div class="eyebrow" id="readerTag">Статья</div><h2 id="readerTitle"></h2><div class="content" id="readerBody"></div>
+    <button class="btn" id="closeReader">← К списку заметок</button>
+  </section>
+</main>
+<footer id="footer"><div class="wrap footer-inner"><span>СКОРОСТЬ / ЛАБ — учебный проект</span><span>HTML · CSS · JavaScript · GitHub Pages</span></div></footer>
+<script>
+(() => {
+  const KEY = "speedlab-articles-v1";
+  const starter = [
+    {id:"intro",title:"Как устроен PageSpeed Insights",tag:"Инструмент",summary:"С чего начать работу с PSI и почему один балл не рассказывает всей истории.",body:"PageSpeed Insights (PSI) анализирует страницу и показывает рекомендации по улучшению производительности. В отчёте важно разделять лабораторные и полевые данные.\\n\\nЛабораторные данные собираются в контролируемых условиях при запуске Lighthouse. Они полезны для диагностики и повторяемых экспериментов.\\n\\nПолевые данные отражают опыт реальных пользователей Chrome за скользящий период. Они могут отсутствовать у новых или малопосещаемых сайтов.\\n\\nПрактическое правило: сначала смотри на Core Web Vitals и конкретные проблемы, а уже затем — на общий балл."},
+    {id:"vitals",title:"Три метрики Core Web Vitals",tag:"Метрики",summary:"LCP, INP и CLS: что именно они измеряют и какие значения считать хорошими.",body:"LCP (Largest Contentful Paint) показывает, когда отрисовался крупнейший видимый элемент контента. Хороший ориентир — не более 2,5 секунды.\\n\\nINP (Interaction to Next Paint) оценивает отзывчивость страницы на взаимодействия. Хороший показатель — до 200 миллисекунд.\\n\\nCLS (Cumulative Layout Shift) оценивает неожиданные сдвиги макета. Хорошее значение — не более 0,1.\\n\\nОценивать полевые Core Web Vitals принято по 75-му процентилю отдельно для мобильных устройств и компьютеров."},
+    {id:"practice",title:"Как проводить честный эксперимент",tag:"Практика",summary:"Простой протокол, который поможет сравнивать результаты до и после оптимизации.",body:"1. Выбери одну страницу и зафиксируй URL.\\n\\n2. Проведи несколько запусков PageSpeed Insights для одного типа устройства. Запиши результаты и условия.\\n\\n3. Выбери одну конкретную проблему из отчёта, например слишком тяжёлое изображение.\\n\\n4. Внеси одно изменение, не меняя одновременно всё остальное.\\n\\n5. Повтори измерения несколько раз и сравни не только балл, но и метрики, время загрузки и диагностические пункты.\\n\\nТак ты сможешь понять, какое изменение повлияло на результат."}
+  ];
+  const $ = id => document.getElementById(id);
+  let articles = load();
+  let editingId = null;
+
+  function load() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(saved) ? saved : starter.slice();
+    } catch (_) { return starter.slice(); }
+  }
+  function persist() {
+    try { localStorage.setItem(KEY, JSON.stringify(articles)); }
+    catch (_) { alert("Не удалось сохранить данные в браузере. Возможно, хранилище переполнено или отключено."); }
+  }
+  function safeText(tag, text) {
+    const el = document.createElement(tag);
+    el.textContent = text;
+    return el;
+  }
+  function render() {
+    const list = $("articleList");
+    list.replaceChildren();
+    if (!articles.length) {
+      const empty = safeText("div", "Пока нет статей. Создай первую заметку о своём эксперименте!");
+      empty.className = "empty"; list.append(empty); return;
+    }
+    articles.forEach(article => {
+      const card = document.createElement("article"); card.className = "article";
+      const tag = safeText("div", (article.tag || "Заметка").toUpperCase()); tag.className = "tag";
+      const title = safeText("h3", article.title);
+      const summary = safeText("p", article.summary);
+      const foot = document.createElement("div"); foot.className = "article-foot";
+      const date = safeText("small", article.date || "Учебная заметка");
+      const actions = document.createElement("div");
+      const read = safeText("button", "Читать →"); read.type = "button"; read.addEventListener("click", () => openArticle(article.id));
+      const edit = safeText("button", "Изменить"); edit.type = "button"; edit.addEventListener("click", () => editArticle(article.id));
+      actions.append(read, edit); foot.append(date, actions); card.append(tag, title, summary, foot); list.append(card);
+    });
+  }
+  function openArticle(id) {
+    const article = articles.find(item => item.id === id); if (!article) return;
+    $("readerTag").textContent = article.tag || "Заметка";
+    $("readerTitle").textContent = article.title;
+    const body = $("readerBody"); body.replaceChildren();
+    article.body.split(/\n\s*\n/).forEach(paragraph => {
+      const p = document.createElement("p"); p.textContent = paragraph; body.append(p);
+    });
+    $("reader").classList.add("open");
+    $("reader").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+  }
+  function resetEditor() {
+    editingId = null; $("editor").reset(); $("editorTitle").textContent = "Новая статья";
+    $("editor").classList.remove("open");
+  }
+  function editArticle(id) {
+    const article = articles.find(item => item.id === id); if (!article) return;
+    editingId = id; $("articleTitle").value = article.title; $("articleTag").value = article.tag || "";
+    $("articleSummary").value = article.summary; $("articleBody").value = article.body;
+    $("editorTitle").textContent = "Редактирование статьи"; $("editor").classList.add("open");
+    $("editor").scrollIntoView({behavior:"smooth",block:"center"});
+  }
+  $("newArticle").addEventListener("click", () => {
+    resetEditor(); $("editor").classList.add("open"); $("articleTitle").focus();
+    $("editor").scrollIntoView({behavior:"smooth",block:"center"});
+  });
+  $("cancelEdit").addEventListener("click", resetEditor);
+  $("editor").addEventListener("submit", event => {
+    event.preventDefault();
+    const data = {title:$("articleTitle").value.trim(),tag:$("articleTag").value.trim(),summary:$("articleSummary").value.trim(),body:$("articleBody").value.trim()};
+    if (!data.title || !data.summary || !data.body) return;
+    if (editingId) {
+      articles = articles.map(item => item.id === editingId ? {...item,...data} : item);
+    } else {
+      articles.unshift({id:crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),...data,date:new Date().toLocaleDateString("ru-RU")});
+    }
+    persist(); render(); resetEditor();
+  });
+  $("closeReader").addEventListener("click", () => $("reader").classList.remove("open"));
+  render();
+})();
+</script>
+</body>
+</html>
